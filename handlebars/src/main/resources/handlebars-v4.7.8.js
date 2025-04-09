@@ -2602,6 +2602,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 
 	exports['default'] = function (Handlebars) {
+		// Newer JavaScript environments have deprecated __defineGetter__
+		// in favor of modern property definition methods (Object.defineProperty)
+		if (!Object.prototype.__defineGetter__) {
+			Object.prototype.__defineGetter__ = function(name, func) {
+				Object.defineProperty(this, name, { get: func, enumerable: true, configurable: true });
+			};
+		}
 	  /* istanbul ignore next */
 	  // https://mathiasbynens.be/notes/globalthis
 	  (function () {
