@@ -326,7 +326,7 @@ public class Handlebars implements HelperRegistry {
   private String endDelimiter = DELIM_END;
 
   /** Location of the handlebars.js file. */
-  private String handlebarsJsFile = "/handlebars-v4.7.7.js";
+  private String handlebarsJsFile = "/handlebars-v4.7.8.js";
 
   /** List of formatters. */
   private List<Formatter> formatters = new ArrayList<>();

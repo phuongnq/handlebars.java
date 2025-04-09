@@ -47,3 +47,9 @@ Handlebars.registerHelper = function (name, helper) {
   Handlebars.helpers[name] = helper;
   Handlebars_java.registerHelper(name, fn);
 };
+
+if (!Object.prototype.__defineGetter__) {
+  Object.prototype.__defineGetter__ = function(name, func) {
+      Object.defineProperty(this, name, { get: func, enumerable: true, configurable: true });
+  };
+}
