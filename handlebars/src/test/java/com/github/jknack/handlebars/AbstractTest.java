@@ -34,6 +34,19 @@ public class AbstractTest {
     shouldCompileTo(template, data, expected, "");
   }
 
+  /**
+   * Normalizes spaces in the result and compares it with the expected value.
+   *
+   * @param template The template to compile.
+   * @param data The context to apply.
+   * @param expected The expected result.
+   * @throws IOException If an I/O error occurs.
+   */
+  public void shouldCompileToNormalized(final String template, final Object data, final String expected)
+      throws IOException {
+    shouldCompileToNormalized(template, data, new Hash(), new Hash(), expected, "");
+  }
+
   public void shouldCompileTo(final String template, final Object data, final String expected)
       throws IOException {
     shouldCompileTo(template, data, expected, "");
@@ -118,6 +131,41 @@ public class AbstractTest {
     Template t = compile(template, helpers, partials);
     String result = t.apply(configureContext(context));
     assertEquals(expected, result, "'" + expected + "' should === '" + result + "': " + message);
+  }
+
+  /*
+   * Normalizes spaces in the result and compares it with the expected value.
+   *
+   * @param template The template to compile.
+   * @param context The context to apply.
+   * @param helpers The helpers to use.
+   * @param partials The partials to use.
+   * @param expected The expected result.
+   * @param message The message to display on failure.
+   * @throws IOException If an I/O error occurs.
+   */
+  public void shouldCompileToNormalized(
+      final String template,
+      final Object context,
+      final Hash helpers,
+      final Hash partials,
+      final String expected,
+      final String message)
+      throws IOException {
+    Template t = compile(template, helpers, partials);
+    String result = t.apply(configureContext(context));
+    assertEquals(expected, normalizeSpaces(result), "'" + expected + "' should === '" + result + "': " + message);
+  }
+
+  /**
+   * Helper to normalize narrow no-break space (U+202F) and regular non-breaking space (U+00A0)
+   * characters to regular space (U+0020).
+   */
+  public String normalizeSpaces(String input) {
+    return input.replace('\u202F', ' ')
+                .replace('\u00A0', ' ')
+                .replaceAll("\\s+", " ")  // optional: also collapses multiple spaces
+                .trim();
   }
 
   protected Object configureContext(final Object context) {

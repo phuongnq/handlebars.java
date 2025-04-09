@@ -60,8 +60,11 @@ public class JodaHelperTest extends AbstractTest {
         version -> version <= 8,
         () -> shouldCompileTo("{{jodaStyleHelper this \"SS\"}}", dateTime, "7/4/95 2:32 PM"));
     withJava(
-        version -> version >= 9,
+        version -> version >= 9 && version <= 20,
         () -> shouldCompileTo("{{jodaStyleHelper this \"SS\"}}", dateTime, "7/4/95, 2:32 PM"));
+    withJava(
+        version -> version >= 21,
+        () -> shouldCompileToNormalized("{{jodaStyleHelper this \"SS\"}}", dateTime, "7/4/95, 2:32 PM"));
   }
 
   @Test
